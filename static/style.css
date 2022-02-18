@@ -70,7 +70,16 @@ header {
   font-size: 46px;
   flex-grow: 1;
 }
+.btn-del {
+  background-color: orangered;
+  color: beige;
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
+}
 
+.btn-del:hover {
+  background-color: orange;
+}
 .number-grid {
   margin: 5px;
   display: grid;
