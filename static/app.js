@@ -18,9 +18,13 @@ const saveKeyCacheToValue = (keyStr) => {
   cacheValue = parseInt(keyCacheMem);
 };
 
-const delCache = () => {
-  keyCacheMem = "";
+const resetCache = () => {
   cacheValue = 0;
+  keyCacheMem = "";
+};
+
+const delAllMem = () => {
+  resetCache();
   totalValue = 0;
   writeScreen(totalValue);
 };
@@ -78,50 +82,46 @@ const getNumberKey = (numberStr) => {
 
 const addOpEvent = () => {
   if (lastOperator) {
-    // result();
-    console.log(lastOperator);
+    result();
+    addOpEvent();
   } else {
     lastOperator = ADD_OP;
     totalValue = cacheValue;
-    cacheValue = 0;
-    keyCacheMem = "";
+    resetCache();
     writeScreen(totalValue);
   }
 };
 
 const substractNumbersEvent = () => {
   if (lastOperator) {
-    // result();
-    console.log(lastOperator);
+    result();
+    substractNumbersEvent();
   } else {
     lastOperator = SUBS_OP;
     totalValue = cacheValue;
-    cacheValue = 0;
-    keyCacheMem = "";
+    resetCache();
     writeScreen(totalValue);
   }
 };
 const multiplyNumbersEvent = () => {
   if (lastOperator) {
-    // result();
-    console.log(lastOperator);
+    result();
+    multiplyNumbersEvent();
   } else {
     lastOperator = MULTY_OP;
     totalValue = cacheValue;
-    cacheValue = 0;
-    keyCacheMem = "";
+    resetCache();
     writeScreen(totalValue);
   }
 };
 const divideNumbersEvent = () => {
   if (lastOperator) {
-    // result();
-    console.log(lastOperator);
+    result();
+    divideNumbersEvent();
   } else {
     lastOperator = DIVIDE_OP;
     totalValue = cacheValue;
-    cacheValue = 0;
-    keyCacheMem = "";
+    resetCache();
     writeScreen(totalValue);
   }
 };
@@ -130,7 +130,7 @@ for (const key of keyBoardBtns) {
   key.addEventListener("click", getNumberKey.bind(this, key.innerHTML));
 }
 
-btnDel.addEventListener("click", delCache);
+btnDel.addEventListener("click", delAllMem);
 btnResult.addEventListener("click", result);
 btnAdd.addEventListener("click", addOpEvent);
 btnSubstract.addEventListener("click", substractNumbersEvent);
