@@ -6,63 +6,125 @@ const DIVIDE_OP = "/";
 const NO_OP = "";
 
 let lastOperator = NO_OP;
-let valueCache = 0;
-// let screenCache = "";
+let cacheValue = 0;
+let powerOn = false;
 let keyCacheMem = "";
-let total = 0;
+let totalValue = 0;
 
 const isMaxDigit = () => keyCacheMem.length === MAX_DIGIT;
 
-const updateValueCache = (strCache) => (valueCache = parseInt(strCache));
-
-const updateKeyCache = (keyStr) => {
+const saveKeyCacheToValue = (keyStr) => {
   keyCacheMem += keyStr;
-  updateValueCache(keyCacheMem);
+  cacheValue = parseInt(keyCacheMem);
 };
 
 const delCache = () => {
   keyCacheMem = "";
-  valueCache = 0;
-  total = 0;
-  writeScreen();
+  cacheValue = 0;
+  totalValue = 0;
+  writeScreen(totalValue);
 };
 
 // If total it's not supplyed, pick keyCacheMem
-const writeScreen = (screenCache = keyCacheMem) => {
-  screen.innerHTML = screenCache;
+const writeScreen = (value) => {
+  screen.innerHTML = value.toString();
 };
 
 const applyLastOperation = () => {
   if (lastOperator === ADD_OP) {
-    total = addNumbers(total, valueCache);
+    totalValue = addOp(totalValue, cacheValue);
+  } else if (lastOperator === SUBS_OP) {
+    totalValue = substractOp(totalValue, cacheValue);
+  } else if (lastOperator === MULTY_OP) {
+    totalValue = multiplyOp(totalValue, cacheValue);
+  } else if (lastOperator === DIVIDE_OP) {
+    totalValue = divideOp(totalValue, cacheValue);
   }
 };
 
-const addNumbers = (totalValue, memValue) => {
+const addOp = (totalValue, memValue) => {
   const addResult = totalValue + memValue;
   return addResult;
+};
+const substractOp = (totalValue, memValue) => {
+  const substResult = totalValue - memValue;
+  return substResult;
+};
+
+const multiplyOp = (totalValue, memValue) => {
+  const multResult = totalValue * memValue;
+  return multResult;
+};
+const divideOp = (totalValue, memValue) => {
+  const divideResult = totalValue / memValue;
+  return divideResult;
 };
 
 const result = () => {
   applyLastOperation();
   lastOperator = "";
-  writeScreen(total);
+  cacheValue = totalValue;
+  totalValue = 0;
+  keyCacheMem = "";
+  writeScreen(cacheValue);
 };
 
 const getNumberKey = (numberStr) => {
   if (!isMaxDigit()) {
-    updateKeyCache(numberStr);
+    saveKeyCacheToValue(numberStr);
   }
-  writeScreen();
+  writeScreen(cacheValue);
 };
 
-const addNumbersEvent = () => {
+const addOpEvent = () => {
   if (lastOperator) {
-    result();
+    // result();
+    console.log(lastOperator);
+  } else {
+    lastOperator = ADD_OP;
+    totalValue = cacheValue;
+    cacheValue = 0;
+    keyCacheMem = "";
+    writeScreen(totalValue);
   }
-  lastOperator = ADD_OP;
 };
 
+const substractNumbersEvent = () => {
+  if (lastOperator) {
+    // result();
+    console.log(lastOperator);
+  } else {
+    lastOperator = SUBS_OP;
+    totalValue = cacheValue;
+    cacheValue = 0;
+    keyCacheMem = "";
+    writeScreen(totalValue);
+  }
+};
+const multiplyNumbersEvent = () => {
+  if (lastOperator) {
+    // result();
+    console.log(lastOperator);
+  } else {
+    lastOperator = MULTY_OP;
+    totalValue = cacheValue;
+    cacheValue = 0;
+    keyCacheMem = "";
+    writeScreen(totalValue);
+  }
+};
+const divideNumbersEvent = () => {
+  if (lastOperator) {
+    // result();
+    console.log(lastOperator);
+  } else {
+    lastOperator = DIVIDE_OP;
+    totalValue = cacheValue;
+    cacheValue = 0;
+    keyCacheMem = "";
+    writeScreen(totalValue);
+  }
+};
 // From the array of buttons, get their innerHTML;
 for (const key of keyBoardBtns) {
   key.addEventListener("click", getNumberKey.bind(this, key.innerHTML));
@@ -70,7 +132,12 @@ for (const key of keyBoardBtns) {
 
 btnDel.addEventListener("click", delCache);
 btnResult.addEventListener("click", result);
-btnAdd.addEventListener("click", addNumbersEvent);
-// btnSubstract.addEventListener("click", substractNumbersEvent);
-// btnMultiply.addEventListener("click", multiplyNumbersEvent);
-// btnDivide.addEventListener("click", divideNumbersEvent);
+btnAdd.addEventListener("click", addOpEvent);
+btnSubstract.addEventListener("click", substractNumbersEvent);
+btnMultiply.addEventListener("click", multiplyNumbersEvent);
+btnDivide.addEventListener("click", divideNumbersEvent);
+
+if (!powerOn) {
+  writeScreen(totalValue);
+  powerOn = true;
+}
