@@ -81,10 +81,11 @@ const getNumberKey = (numberStr) => {
 };
 
 const addOpEvent = () => {
-  if (lastOperator) {
+  if (lastOperator /*=== ADD_OP*/) {
+    lastOperator = ADD_OP;
     result();
     addOpEvent();
-  } else {
+  } else if (!lastOperator) {
     lastOperator = ADD_OP;
     totalValue = cacheValue;
     resetCache();
@@ -93,10 +94,11 @@ const addOpEvent = () => {
 };
 
 const substractNumbersEvent = () => {
-  if (lastOperator) {
+  if (lastOperator /* === SUBS_OP*/) {
+    lastOperator = SUBS_OP;
     result();
     substractNumbersEvent();
-  } else {
+  } else if (!lastOperator) {
     lastOperator = SUBS_OP;
     totalValue = cacheValue;
     resetCache();
@@ -104,10 +106,11 @@ const substractNumbersEvent = () => {
   }
 };
 const multiplyNumbersEvent = () => {
-  if (lastOperator) {
+  if (lastOperator /* === MULTY_OP*/) {
+    lastOperator = MULTY_OP;
     result();
     multiplyNumbersEvent();
-  } else {
+  } else if (!lastOperator) {
     lastOperator = MULTY_OP;
     totalValue = cacheValue;
     resetCache();
@@ -115,10 +118,11 @@ const multiplyNumbersEvent = () => {
   }
 };
 const divideNumbersEvent = () => {
-  if (lastOperator) {
+  if (lastOperator /* === DIVIDE_OP*/) {
+    lastOperator = DIVIDE_OP;
     result();
     divideNumbersEvent();
-  } else {
+  } else if (!lastOperator) {
     lastOperator = DIVIDE_OP;
     totalValue = cacheValue;
     resetCache();
